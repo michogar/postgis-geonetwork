@@ -1,6 +1,6 @@
-#####################################
 GeoNetwork como catálogo de metadatos
 #####################################
+
 Objetivo
 ########
 Con este curso se pretende iniciar al alumno en el manejo de **GeoNetwork** como catálogo de metadatos dentro de un nodo IDE. Actualmente GeoNetwork es ha posicionado como uno de los servidores de metadatos mas potente del ecosistema de software libre orientado a geomática. Con ya muchos años de desarrollo e instalado en grandes organizaciones como la FAO (precursora originaria del proyecto) se muestra como una herramienta versatil, potente y altamente configurable. También se pretende mostrar brevemente la teoría que acompaña el uso de los metadatos dentro de una organización, tanto los estándares de servicio como las normas en las que los metadatos se apoyan para su definición. 
@@ -19,6 +19,7 @@ Temario
 	#. Definición de los diferentes normas
 		#. ISO 19117
 		#. Dublin Core
+		#. ...
 #. Estandar CSW para el manejo de metadatos **(2h)**
 	#. Descripción del estandar
 #. GeoNetwork como catálogo de metadatos **(5h)**
@@ -30,7 +31,7 @@ Temario
 	
 Anexo
 #####
-Este curso se impartirá con la versión 2.10 de GeoNetwork.
+Este curso se impartirá con la versión 2.10 de GeoNetwork. El curso se realizará en una única jornada de **8 horas**.
 
 Materiales necesarios
 #####################
