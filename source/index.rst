@@ -3,17 +3,24 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Curso PostGIS & GeoNetwork's documentation!
-======================================================
+Documentación curso de PostGIS y GeoNetwork. Honduras 2013
+==========================================================
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
    
-   introduccion-postgis
-   introduccion-geonetwork
-
+   teoria_bases_datos
+   instalacion
+   conceptos_sql
+   caracteristicas_espaciales
+   simple_feature_model
+   relaciones_espaciales
+   indexacion_espacial
+   importacion_exportacion
+   analisis_espacial
+   postgis_raster
 
 Indices and tables
 ==================
