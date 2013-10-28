@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Análisis espacial &mdash; Curso PostGIS &amp; GeoNetwork 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Curso PostGIS &amp; GeoNetwork 1 documentation" href="index.html" />
+    <link rel="next" title="PostGIS Raster" href="postgis_raster.html" />
+    <link rel="prev" title="Importación y exportación de datos" href="importacion_exportacion.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="postgis_raster.html" title="PostGIS Raster"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="importacion_exportacion.html" title="Importación y exportación de datos"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Curso PostGIS &amp; GeoNetwork 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="analisis-espacial">
+<h1>Análisis espacial<a class="headerlink" href="#analisis-espacial" title="Permalink to this headline">¶</a></h1>
+<p>El análisis de datos con SIG tiene por finalidad para descubrir estructuras espaciales, asociaciones y relaciones entre los datos, así como para modelar fenómenos geográficos. Los resultados reflejan la naturaleza y calidad de los datos así como la pertinencia de los métodos y funciones aplicadas. Las tareas y transformaciones que se llevan a cabo en el análisis espacial precisan datos estructurados, programas con las funciones apropiadas y conocimientos sobre la naturaleza del problema, para definir los métodos de análisis.</p>
+<p>El proceso convierte los datos en información útil para conocer un problema determinado. Es evidente que los resultados del análisis espacial añaden valor económico y, sobre todo, información y conocimiento a los datos geográficos</p>
+<div class="section" id="operadores-espaciales">
+<h2>Operadores espaciales<a class="headerlink" href="#operadores-espaciales" title="Permalink to this headline">¶</a></h2>
+<p>Estos son los encargados de realizar operaciones geométricas entre las geometrías que se les pasa como argumentos. Están definidos en la norma SFA y PostGIS soporta todos ellos.</p>
+<div class="section" id="buffer">
+<h3>Buffer<a class="headerlink" href="#buffer" title="Permalink to this headline">¶</a></h3>
+<p>Es el conjunto de puntos situados a una determinada distancia de la geometría</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/st_buffer.png"><img alt="_images/st_buffer.png" src="_images/st_buffer.png" /></a>
+</div></blockquote>
+<p>Acepta distancias negativas, pero estas en lineas y puntos devolverán el conjunto vacio.</p>
+</div>
+<div class="section" id="interseccion">
+<h3>Intersección<a class="headerlink" href="#interseccion" title="Permalink to this headline">¶</a></h3>
+<p>Genera una geometría a partir de la intersección de las geometrías que se les pasa como parámetros.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/intersection.jpg"><img alt="_images/intersection.jpg" src="_images/intersection.jpg" /></a>
+</div></blockquote>
+<p>¿Cúal es el area en común de dos círculos situados en los puntos (0 0) y (3 0) de radio 2?:</p>
+<div class="highlight-python"><pre>SELECT ST_AsText(ST_Intersection(
+  ST_Buffer('POINT(0 0)', 2),
+  ST_Buffer('POINT(3 0)', 2)
+));</pre>
+</div>
+<div class="section" id="practica">
+<h4>Práctica<a class="headerlink" href="#practica" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div>¿Qué ciudad de Costa Rica tiene más zonas fluviales en un radio de 20km?</div></blockquote>
+</div>
+</div>
+<div class="section" id="union">
+<h3>Unión<a class="headerlink" href="#union" title="Permalink to this headline">¶</a></h3>
+<p>Al contrario que en el caso anterior, la unión produce un una geometría común con las geometrías que se le pasa a la función como argumento. Esta función acepta como parámetro dos opciones, las geometrías que serán unidas:</p>
+<div class="highlight-python"><pre>ST_Union(Geometría A, Geometría B)</pre>
+</div>
+<p>o una colección de geometrías:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ST_Union</span><span class="p">([</span><span class="n">Geometry</span><span class="p">])</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/union.jpg"><img alt="_images/union.jpg" src="_images/union.jpg" /></a>
+<div class="section" id="id1">
+<h4>Práctica<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div>Crear una tabla nueva con los tramos de los rios totales</div></blockquote>
+</div>
+</div>
+<div class="section" id="diferencia">
+<h3>Diferencia<a class="headerlink" href="#diferencia" title="Permalink to this headline">¶</a></h3>
+<p>La diferencía entre dos geometrías A y B, son los puntos que pertenecen a A, pero no pertenecen a B</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/STDifference.png"><img alt="_images/STDifference.png" src="_images/STDifference.png" /></a>
+</div></blockquote>
+<div class="highlight-python"><pre>ST_Difference(Geometría A, Geometría B)</pre>
+</div>
+</div>
+<div class="section" id="diferencia-simetrica">
+<h3>Diferencia simétrica<a class="headerlink" href="#diferencia-simetrica" title="Permalink to this headline">¶</a></h3>
+<p>Es el conjunto de puntos que pertenecen a A o a B pero no a ambas.</p>
+<blockquote>
+<div><img alt="_images/symdifference.gif" src="_images/symdifference.gif" />
+</div></blockquote>
+<div class="highlight-python"><pre>ST_SymDifference(Geometría A, Geometría B)</pre>
+</div>
+</div>
+<div class="section" id="tipos-de-geometrias-devueltas">
+<h3>Tipos de geometrías devueltas<a class="headerlink" href="#tipos-de-geometrias-devueltas" title="Permalink to this headline">¶</a></h3>
+<p>El tipo de geometrías que devuelven estas operaciones no tienen porque ser igual al tipo de geometrías que le son pasadas como argumentos. Estas operaciones devolverán:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Una única geometría</li>
+<li>Una geometría <em>Multi</em> si está compuesta por varias geometrías del mismo tipo</li>
+<li>Una <em>GeometryCollection</em> si está formada por geometrías de distinto tipo.</li>
+</ul>
+</div></blockquote>
+<p>En este último caso habrá que proceder a una homogeneización de las geometrías que son devueltas, para ello podremos utilizar diferentes estrategias:</p>
+<blockquote>
+<div><ul class="simple">
+<li>El uso de clausulas de filtrado, por ejemplo indicando que solo se devuelvan aquellas geometrías cuya intersección sea una línea.</li>
+<li>Crear las tablas de salida de tipo <em>Multi</em>, en este caso las geometrías que no sean multi podrán ser convertidas a este tipo mediante la función <tt class="docutils literal"><span class="pre">ST_Multi</span></tt></li>
+<li>En caso de que las geometrías devueltas sean tipo <em>GeometryCollection</em>, será necesario iterar esta colección, y extraer mediante la función <tt class="docutils literal"><span class="pre">ST_CollectionExtract</span></tt> las geometrías en las que estamos interesados, indicandole para ello a la función la dimensión de las geometrías.</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="transformacion-y-edicion-de-coordenadas">
+<h2>Transformación y edición de coordenadas<a class="headerlink" href="#transformacion-y-edicion-de-coordenadas" title="Permalink to this headline">¶</a></h2>
+<p>Mediante el uso de diferentes funciones seremos capaces de manejar transformaciones entre sistemas de coordenadas o hacer reproyeciones de las capas. Para un manejo básico de estas utilizaremos las funciones que PostGIS pone a nuestra disposición:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>ST_Transform(geometría, srid)</strong>, que nos permite la transformación de la geometría al SRID que le pasamos por parámetro.</li>
+<li><a href="#id2"><span class="problematic" id="id3">**</span></a>ST_SRID(geometria) nos muestra el SRID de la geometría</li>
+<li><strong>ST_SetSRID(geometria, srid)</strong> asigna el SRID a la geometría pero sin relizar la transformación</li>
+</ul>
+</div></blockquote>
+<p>En la tabla <tt class="docutils literal"><span class="pre">spatial_ref_sys</span></tt> encontraremos la definición de los sistemas de coordenadas de los que disponemos. Podremos consultar la descripción de ellos mediante consultas <tt class="docutils literal"><span class="pre">select</span></tt> del estilo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># select * from spatial_ref_sys where srid=4326;</span>
+</pre></div>
+</div>
+<p>Para transformar las geometrías en otros sistemas de coordenadas, lo primero que debemos saber es el sistema de coordenadas de origen y el de destino. Hemos de consultar que estos se encuentran en la tabla <tt class="docutils literal"><span class="pre">spatial_ref_sys</span></tt>. En caso de que alguna de nuestras tablas no tenga asignado un SRID, el valor de este será -1, valor por defecto, por lo que habrá que asignarle el sistema de coordenadas antes de la transformación.</p>
+<div class="section" id="id4">
+<h3>Práctica<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>¿Cuanto mide el rio más largo de la tabla CRI_rios?. Comprobar el sistema de coordenadas original y las medidas para realizar el cálculo.</p>
+<p>¿Cual es la provincia que más longitud de rios contiene?</p>
+<p>De la capa de reservas naturales extraer en una capa aquellas que son del mismo tipo <tt class="docutils literal"><span class="pre">desig</span></tt></p>
+<p>Comprobar la provincia que tiene más superficie de espacios naturales del tipo <tt class="docutils literal"><span class="pre">Biological</span> <span class="pre">Reserve</span></tt></p>
+<p>Separar en tablas las carreteras en función del tipo (RTT_DESCRI)</p>
+<p>Calcular las reservas del tipo <tt class="docutils literal"><span class="pre">Protective</span> <span class="pre">Zone</span></tt> que son atravesadas por una carretera de cualquier tipo y calcular la superficie de las zonas separadas</p>
+<p>Unir en una sola zona aquellas zonas protegidas (<tt class="docutils literal"><span class="pre">Protective</span> <span class="pre">Zone</span></tt>) que pertenezcan a una sola provincia exclusivamente y crear una nueva capa con ellas</p>
+<p>¿Cuales de las reservas de tipo Refugio natural de vida salvaje (National Wildlife Refuge) tienen parte marina?</p>
+<p>Crear una tabla con las ciudades de Costa Rica.</p>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Análisis espacial</a><ul>
+<li><a class="reference internal" href="#operadores-espaciales">Operadores espaciales</a><ul>
+<li><a class="reference internal" href="#buffer">Buffer</a></li>
+<li><a class="reference internal" href="#interseccion">Intersección</a><ul>
+<li><a class="reference internal" href="#practica">Práctica</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#union">Unión</a><ul>
+<li><a class="reference internal" href="#id1">Práctica</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#diferencia">Diferencia</a></li>
+<li><a class="reference internal" href="#diferencia-simetrica">Diferencia simétrica</a></li>
+<li><a class="reference internal" href="#tipos-de-geometrias-devueltas">Tipos de geometrías devueltas</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transformacion-y-edicion-de-coordenadas">Transformación y edición de coordenadas</a><ul>
+<li><a class="reference internal" href="#id4">Práctica</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="importacion_exportacion.html"
+                        title="previous chapter">Importación y exportación de datos</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="postgis_raster.html"
+                        title="next chapter"><em>PostGIS</em> Raster</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/analisis_espacial.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="postgis_raster.html" title="PostGIS Raster"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="importacion_exportacion.html" title="Importación y exportación de datos"
+             >previous</a> |</li>
+        <li><a href="index.html">Curso PostGIS &amp; GeoNetwork 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Micho García.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

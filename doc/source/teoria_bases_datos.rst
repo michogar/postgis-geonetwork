@@ -1,4 +1,4 @@
-.. |BD| replace:: **base de datos**
+.. |BD| replace:: **Base de Datos**
 .. |SGBD| replace:: **SGBD**
 .. |MR| replace:: **modelo relacional**
 .. |IA| replace:: ``is a``
@@ -92,14 +92,6 @@ Una **entidad** es todo aquello de lo cual nos interesa guardar **datos**, por e
 	* Oficinas de correos
 	* Accidentes geográficos
 	* ...
-	
-Práctica 1
-----------
-
-Defina la estructura de una tabla para los Parques Naturales de Costa Rica. Para ello detecte la información necesaria susceptible de ser almacenada y estructurela en una tabla definiendo el nombre del campo.
-
-Fuente: http://es.wikipedia.org/wiki/Parques_nacionales_de_Costa_Rica
- 
 
 Modelización de |BD|
 ====================
@@ -111,20 +103,23 @@ Por entidad entendemos un objeto del mundo real que podemos distinguir del resto
 
 En el |MR|, se puede observar que estas entidades se formarán por atributos o campos referidos a un mismo tema que interesa almacenar. Una entidad debe definir cualquier objeto real o abstracto (que pueda ser pensado) y acerca del cual queremos guardar información. Se representan mediante rectángulos en el |MR|
 
-Una entidad se correspondería en el |MR| con una tabla. La tabla a su vez estará formada por filas y columnas que serán
+Una entidad se correspondería en el |MR| con una **tabla**. La tabla a su vez estará formada por filas y columnas que serán
 
 	* FILAS serían cada unidad necesaria de almacenamiento, que se corresponden con los REGISTROS de la tabla
 	* COLUMNAS que se corresponden con los CAMPOS, unidad mínima de información, donde podríamos almacenar cada dato referente a una propiedad del REGISTRO
 	
 Mediante este sencillo esquema podremos definir en nuestro sistema las entidades mínimas necesarias para almacenar información.
 
-Ejemplo de tablas::
+Ejemplo de tablas
+^^^^^^^^^^^^^^^^^
+::
 
 	TABLA -> ENTIDAD -> PARQUE NATURAL
 	FILA -> REGISTRO -> Parque Nacional de Corcovado
 	COLUMNA -> CAMPO -> 8º 33´´ N 83º 35´´ O
 	
 Ejemplos de entidad
+^^^^^^^^^^^^^^^^^^^
 
 Algunos ejemplos de entidad son un empleado, un producto o un despacho. También son entidades otros elementos del mundo real de interés, menos tangibles pero igualmente diferenciables del resto de objetos; por ejemplo, una asignatura impartida en una universidad, un préstamo bancario, un pedido de un cliente, etc.
 
@@ -133,6 +128,9 @@ El término entidad se utiliza tanto para denominar objetos individuales como pa
 El modelo ER proporciona una notación diagramática para representar gráficamente las entidades y sus atributos:
 
 	* Las entidades se representan con un rectángulo. El nombre de la entidad se escribe en mayúsculas dentro del rectángulo.
+
+			.. image:: _images/Entidad.png
+
 
 Ejemplo de Entidad::
 
@@ -146,6 +144,8 @@ Entidad débil
 Una entidad débil es una entidad cuyos atributos no la identifican completamente, sino que sólo la identifican de forma parcial. Esta entidad debe participar en una interrelación que ayuda a identificarla.
 
 Una entidad débil se representa con un rectángulo doble, y la interrelación que ayuda a identificarla se representa con una doble línea.
+
+			.. image:: _images/Entidad_debil.png
 
 Ejemplo entidad debil::
 
@@ -197,9 +197,9 @@ El uso de dominios se puede considerar una restricción sobre los valores. Adem�
 Ejemplo restricción::
 
 	* Restricción de dominio::
-		* Un trabajador de Correos de Costa Rica no puede tener un sueldo menor a 75000 colones
+		* Un trabajador de Correos de Honduras no puede tener un sueldo menor a 7000 lempiras
 	* Integridad referencial::
-		* Si cierra Correos de Costa Rica no puede quedar ninguna Oficina en la base de datos
+		* Si cierra Correos de Honduras no puede quedar ninguna Oficina en la base de datos
 		
 Relación
 --------
@@ -278,68 +278,3 @@ Modelización
 	4. Especificar las relaciones y cardinalidades
 	5. Identificar entidades débiles 
 	6. Especializar y generalizar entidades donde sea posible
-
-Diagramas Entidad-Relación
---------------------------
-
-Práctica 1. Geografía
-^^^^^^^^^^^^^^^^^^^^^
-Crear un diseño entidad relación que permita almacenar datos geográficos referidos a Costa Rica:
-
-	Se almacenará el nombre y población de cada localidad, junto con su nombre y los datos de la provincia a la que pertenece la localidad, su nombre, población y superficie.
-
-	Necesitamos también conocer los datos de cada provincia, nombre, población y superficie y por supuesto las localidades y cantones de la misma
-
-	Para identificar a la provincia se usarán los dos primeros dígitos del código postal. Es decir 111 será el código de Alajuela y 51 el de Cartago
-
-	Necesitamos saber qué localidad es la capital de cada provincia y cuáles lo son de cada comunidad 
-
-Práctica 2. Accidentes geográficos
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Realizar un esquema entidad/relación que sirva para almacenar información geográfica. Para ello hay que tener en cuenta
-
-	Se almacenan los siguientes accidentes geográficos: ríos, lagos y montañas
-
-	De cada accidente se almacenan su posición horizontal y vertical según el eje de la tierra, además de su nombre
-
-	De los ríos se almacena su longitud, de las montañas su altura y de los lagos su extensión
-
-	Se almacena también información sobre cada país, su nombre, su extensión y su población
-
-	Se desea almacenar información que permite saber en qué país está cada accidente geográfico, teniendo en cuenta que cada accidente puede estar en más de un país.
-
-	Se almacena también los nombres de cada localidad del planeta. Y se almacena por qué localidades pasa cada río.
-
-Práctica 3. Red social
-^^^^^^^^^^^^^^^^^^^^^^
-Crear un diseño entidad/relación que permita modelar un sistema que sirva para simular el funcionamiento de una red social, teniendo en cuenta lo siguiente:
-
-	Los usuarios de la red social se identifican con un identificador y una contraseña. Además se almacena de ellos:
-
-	Su nombre, apellidos, dirección, teléfono (puede tener varios teléfonos) e e-mail (el e-mail no tiene que poder coincidir con el de otro usuario) y una foto
-
-	Si los usuarios son celebridades, de ellos no aparecerá ni el email ni la dirección ni el teléfono.
-
-	Los usuarios pueden tener una serie de contactos, que en realidad son otros usuarios. De cada contacto se puede almacenar un comentario que es personal y que sirve para describir al contacto.
-
-	Los usuarios pueden organizar sus contactos en grupos de los cuales se almacena un nombre y deberemos saber los contactos que contiene. El mismo contacto puede formar parte de varios grupos.
-
-	Además cada usuario puede tener una lista de usuarios bloqueados a fin de que no puedan contactar con él
-
-	Los usuarios pueden publicar en la red comentarios, los cuales se puede hacer que los vea todo el mundo, que los vea uno o varios de los grupos de contactos del usuario o bien una lista concreta de usuarios. Los comentarios pueden incluir un texto y una imagen.
-
-Práctica 4. Parques Naturales
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Se necesita crear un SIG para el manejo de la información de los Parques Naturales de Costa Rica. 
-	
-	Se almacenará de los parques naturales, su nombre o denominación, superficie y año de creación como entidad. 
-	
-	Se debe poder comprobar el area de conservación, la ecorregión y la provincia en la que está situado.
-	
-	La información ha de tomarse de la Wikipedia, del artículo de los Parques Nacionales de Costa Rica [`1`_] 
-	
-	Cualquier información interesante de ser almacenada deberá ser tenida en cuenta en el modelo.
-	
-	.. note:: Se discutirá y defenderá el modelo planteado por el alumno
-
-.. _1: http://es.wikipedia.org/wiki/Parques_nacionales_de_Costa_Rica

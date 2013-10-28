@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Relaciones espaciales &mdash; Curso PostGIS &amp; GeoNetwork 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Curso PostGIS &amp; GeoNetwork 1 documentation" href="index.html" />
+    <link rel="next" title="Indexación espacial" href="indexacion_espacial.html" />
+    <link rel="prev" title="Simple Feature Model" href="simple_feature_model.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="indexacion_espacial.html" title="Indexación espacial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="simple_feature_model.html" title="Simple Feature Model"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Curso PostGIS &amp; GeoNetwork 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="relaciones-espaciales">
+<h1>Relaciones espaciales<a class="headerlink" href="#relaciones-espaciales" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Permalink to this headline">¶</a></h2>
+<p>Estos métodos lo que hacen es verificar el cumplimiento de determinados predicados geográficos entre dos geometrías distintas. Los predicados geográficos toman dos geometrías como argumento, y devuelven un valor booleano que indica si ambas geometrías cumplen o no una determinada relación espacial. Las principales relaciones espaciales contempladas son equals, disjoint, intersects, touches, crosses, within, contains, overlaps.</p>
+</div>
+<div class="section" id="matriz-de-9im">
+<h2>Matriz DE-9IM<a class="headerlink" href="#matriz-de-9im" title="Permalink to this headline">¶</a></h2>
+<p>Estas relaciones o predicados son descritas por la matriz DE-9IM (Dimensionally Extended 9 intersection Matrix), que es una construcción matemática de la rama de la topología.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/matriz.png"><img alt="_images/matriz.png" src="_images/matriz.png" /></a>
+</div></blockquote>
+<p>Figura: Mátriz DE-9IM de dos figuras geométricas dadas. Fuente: wikipedia en inglés [7] (<a class="reference external" href="http://en.wikipedia.org/wiki/DE-9IM">http://en.wikipedia.org/wiki/DE-9IM</a>)</p>
+</div>
+<div class="section" id="predicados-espaciales">
+<h2>Predicados espaciales<a class="headerlink" href="#predicados-espaciales" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/mas_predicados_espaciales.png"><img alt="_images/mas_predicados_espaciales.png" src="_images/mas_predicados_espaciales.png" /></a>
+</div></blockquote>
+<p>Figura: Ejemplos de predicados espaciales. Fuente: wikipedia. <a class="reference external" href="http://en.wikipedia.org/wiki/File:TopologicSpatialRelarions2.png">http://en.wikipedia.org/wiki/File:TopologicSpatialRelarions2.png</a></p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/touches.png"><img alt="_images/touches.png" src="_images/touches.png" /></a>
+</div></blockquote>
+<p>Figura: Ejemplos de la relación “Touch” (toca). Fuente: “OpenGIS® Implementation Standard for Geographic information - Simple feature access - Part 1: Common architecture”</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/crosses.png"><img alt="_images/crosses.png" src="_images/crosses.png" /></a>
+</div></blockquote>
+<p>Figura: Ejemplos de la relación “Crosses” (cruza). Fuente: “OpenGIS® Implementation Standard for Geographic information - Simple feature access - Part 1: Common architecture”</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/within.png"><img alt="_images/within.png" src="_images/within.png" /></a>
+</div></blockquote>
+<p>Figura: Ejemplos de la relación “Within” (contenido en). Fuente: “OpenGIS® Implementation Standard for Geographic information - Simple feature access - Part 1: Common architecture”</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/overlaps.png"><img alt="_images/overlaps.png" src="_images/overlaps.png" /></a>
+</div></blockquote>
+<p>Figura: Ejemplos de la relación “Overlaps” (solapa). Fuente: “OpenGIS® Implementation Standard for Geographic information - Simple feature access - Part 1: Common architecture”</p>
+<p>Los principales métodos de la clase Geometry para chequear predicados espaciales entra la geometría en cuestión y otra proporcionada como parámetro son:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>Equals (A, B)</strong>: Las geometrías son iguales desde un punto de vista topológico</li>
+<li><strong>Disjoint (A, B)</strong>: No tienen ningún punto en común, las geometrías son disjuntas</li>
+<li><strong>Intersects (A, B)</strong>:Tienen por lo menos un punto en común. Es el inverso de Disjoint</li>
+<li><strong>Touches (A, B)</strong>: Las geometrías tendrán por lo menos un punto en común del contorno, pero no puntos interiores</li>
+<li><strong>Crosses (A, B)</strong>: Comparten parte, pero no todos los puntos interiores, y la dimensión de la intersección es menor que la dimensión de al menos una de las geometrías</li>
+<li><strong>Contains (A, B)</strong>: Ningún punto de B está en el exterior de A. Al menos un punto del interior de B está en el interior de A</li>
+<li><strong>Within (A, B)</strong>: Es el inverso de Contains. Within(B, A) = Contains (A, B)</li>
+<li><strong>Overlaps (A, B)</strong>: Las geometrías comparten parte pero no todos los puntos y la intersección tiene la misma dimensión que las geometrías.</li>
+<li><strong>Covers (A, B)</strong>: Ningún punto de B está en el exterior de A. B está contenido en A.</li>
+<li><strong>CoveredBy (A, B)</strong>: Es el inverso de Covers. CoveredBy(A, B) = Covers(B, A)</li>
+</ul>
+</div></blockquote>
+<div class="section" id="st-equals">
+<h3>ST_Equals<a class="headerlink" href="#st-equals" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>ST_Equals(geometry A, geometry B), comprueba que dos geometrías sean espacialmente iguales.</pre>
+</div>
+<p>ST_Equals devuelve TRUE si dos geometrías del mismo tipo tienen identicas coordenadas x,y.</p>
+<div class="section" id="ejemplo">
+<h4>Ejemplo<a class="headerlink" href="#ejemplo" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><pre># SELECT name, the_geom, ST_AsText(the_geom)
+FROM nyc_subway_stations
+WHERE name = 'Broad St';</pre>
+</div>
+<div class="highlight-python"><pre>   name   |                      the_geom                      |      st_astext
+----------+----------------------------------------------------+-----------------------
+ Broad St | 0101000020266900000EEBD4CF27CF2141BC17D69516315141 | POINT(583571 4506714)</pre>
+</div>
+<p>Si usamos el valor obtenido en <tt class="docutils literal"><span class="pre">the_geom</span></tt> y consultamos a la base de datos:</p>
+<div class="highlight-python"><pre># SELECT name
+FROM nyc_subway_stations
+WHERE ST_Equals(the_geom, '0101000020266900000EEBD4CF27CF2141BC17D69516315141');</pre>
+</div>
+<div class="highlight-python"><pre>Broad St</pre>
+</div>
+</div>
+</div>
+<div class="section" id="st-intersects-st-disjoint-st-crosses-y-st-overlaps">
+<h3>ST_Intersects, ST_Disjoint, ST_Crosses y ST_Overlaps<a class="headerlink" href="#st-intersects-st-disjoint-st-crosses-y-st-overlaps" title="Permalink to this headline">¶</a></h3>
+<p>Comprueban la relación entre los interiores de las geometrías.</p>
+<div class="section" id="st-intersects">
+<h4>ST_Intersects<a class="headerlink" href="#st-intersects" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><pre>ST_Intersects(geometry A, geometry B)</pre>
+</div>
+<p>Devuelve TRUE si la intersección no es un resultado vacio.</p>
+</div>
+<div class="section" id="st-disjoint">
+<h4>ST_Disjoint<a class="headerlink" href="#st-disjoint" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><pre>ST_Disjoint(geometry A , geometry B)</pre>
+</div>
+<p>Es el inverso de ST_Intersects. indica que dos geometrías no tienen ningún punto en común. Es menos eficiente que ST_Intersects ya que esta no está indexada. Se recomienda comprobar <tt class="docutils literal"><span class="pre">NOT</span> <span class="pre">ST_Intersects</span></tt></p>
+</div>
+<div class="section" id="st-crosses">
+<h4>ST_Crosses<a class="headerlink" href="#st-crosses" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><pre>ST_Crosses(geometry A, geometry B)</pre>
+</div>
+<p>Se cumple esta relación si el resultado de la intesección de dos geometrías es de dimensión menor que la mayor de las dimensiones de las dos geometrías y además esta intersección está en el interior de ambas.</p>
+</div>
+<div class="section" id="st-overlap">
+<h4>ST_Overlap<a class="headerlink" href="#st-overlap" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><pre>ST_Overlaps(geometry A, geometry B)</pre>
+</div>
+<p>compara dos geometrías de la misma dimensión y devuelve TRUE si su intersección resulta una geometría diferente de ambas pero de la misma dimensión</p>
+<div class="section" id="id1">
+<h5>Ejemplo<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h5>
+<p>Compruebe el barrio donde se encuentra la estación de metro <em>Broad Street</em>:</p>
+<div class="highlight-python"><pre># SELECT name, ST_AsText(the_geom)
+FROM nyc_subway_stations
+WHERE name = 'Broad St';</pre>
+</div>
+<div class="highlight-python"><pre>POINT(583571 4506714)</pre>
+</div>
+<div class="highlight-python"><pre># SELECT name, boroname
+FROM nyc_neighborhoods
+WHERE ST_Intersects(the_geom, ST_GeomFromText('POINT(583571 4506714)',26918));</pre>
+</div>
+<div class="highlight-python"><pre>             name        | boroname
+--------------------+-----------
+ Financial District | Manhattan</pre>
+</div>
+</div>
+</div>
+<div class="section" id="st-touches">
+<h4>ST_Touches<a class="headerlink" href="#st-touches" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><pre>ST_Touches(geometry A, geometry B)</pre>
+</div>
+<p>Devuelte TRUE si cualquiera de los contornos de las geometrías se cruzan o si sólo uno de los interiores de la geometría se cruza el contorno del otro.</p>
+</div>
+<div class="section" id="st-within-y-st-contains">
+<h4>ST_Within y ST_Contains<a class="headerlink" href="#st-within-y-st-contains" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><pre>ST_Within(geometry A , geometry B)</pre>
+</div>
+<p>es TRUE si la geometría A está completamente dentro de la geometría B. Es el inverso de ST_Contains</p>
+<div class="highlight-python"><pre>ST_Contains(geometry A, geometry B)</pre>
+</div>
+<p>Devuelve TRUE si la geometría B está contenida completamente en la geometría A</p>
+<div class="section" id="id2">
+<h5>Ejemplo<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h5>
+<p>¿En que barrio se encuentra la estación Brook Ave?</p>
+<div class="highlight-python"><pre># SELECT ST_AsText(the_geom)
+FROM nyc_subway_stations
+WHERE name='Brook Ave';</pre>
+</div>
+<div class="highlight-python"><pre>POINT(591158.462734484 4517957.5457551)</pre>
+</div>
+<div class="highlight-python"><pre># SELECT boroname
+FROM nyc_neighborhoods as n
+WHERE ST_Contains(n.the_geom, ST_GeometryFromText('POINT(591158.462734484 4517957.5457551)',26918));</pre>
+</div>
+<div class="highlight-python"><pre> boroname
+-----------
+ The Bronx</pre>
+</div>
+</div>
+</div>
+<div class="section" id="st-distance-and-st-dwithin">
+<h4>ST_Distance and ST_DWithin<a class="headerlink" href="#st-distance-and-st-dwithin" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><pre>ST_Distance(geometry A, geometry B)</pre>
+</div>
+<p>Calcula la menor distancia entre dos geometrías.</p>
+<div class="highlight-python"><pre>ST_DWithin(geometry A, geometry B, distance)</pre>
+</div>
+<p>Permite calcular si dos objetos se encuentran a una distancia dada uno del otro.</p>
+<div class="section" id="id3">
+<h5>Ejemplo<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h5>
+<p>Encontrar las calles que estén a menos de 10 metros de la estación de metro Broad Street</p>
+<div class="highlight-python"><pre># SELECT name
+FROM nyc_streets
+WHERE ST_DWithin(
+             the_geom,
+             ST_GeomFromText('POINT(583571 4506714)',26918),
+             10
+           );</pre>
+</div>
+<div class="highlight-python"><pre>     name
+--------------
+        Wall St
+        Broad St
+        Nassau St</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="joins-espaciales">
+<h2>JOINS espaciales<a class="headerlink" href="#joins-espaciales" title="Permalink to this headline">¶</a></h2>
+<p>Permite combinar información de diferentes tablas usando relaciones espaciales como clvae dentro del JOIN. En los ejemplos anteriores hemos realizado el proceso en varios pasos. Usando JOINS espaciales, podremos realizarlos en un solo paso:</p>
+<div class="highlight-python"><pre># SELECT
+  subways.name AS subway_name,
+  neighborhoods.name AS neighborhood_name,
+  neighborhoods.boroname AS borough
+FROM nyc_neighborhoods AS neighborhoods
+JOIN nyc_subway_stations AS subways
+ON ST_Contains(neighborhoods.the_geom, subways.the_geom)
+WHERE subways.name = 'Broad St';</pre>
+</div>
+<div class="highlight-python"><pre> subway_name | neighborhood_name  |  borough
+-------------+--------------------+-----------
+ Broad St    | Financial District | Manhattan</pre>
+</div>
+<p>Cualquier función que permita crear relaciones TRUE/FALSE entre dos tablas puede ser usada para manejar un JOIN espacial, pero comunmente las más usadas son:</p>
+<blockquote>
+<div><ul class="simple">
+<li>ST_Intersects</li>
+<li>ST_Contains</li>
+<li>ST_DWithin</li>
+</ul>
+</div></blockquote>
+<div class="section" id="join-y-group-by">
+<h3>JOIN y GROUP BY<a class="headerlink" href="#join-y-group-by" title="Permalink to this headline">¶</a></h3>
+<p>Para la pregunta ¿Cúal es la población de los barrios de Manhattan agrupada por color de piel?, habremos de combinar la información del censo con los límites de los barrios con la restricción de que sea para el barrio de Manhattan:</p>
+<div class="highlight-python"><pre># SELECT
+  neighborhoods.name AS neighborhood_name,
+  Sum(census.popn_total) AS population,
+  Round(100.0 * Sum(census.popn_white) / Sum(census.popn_total),1) AS white_pct,
+  Round(100.0 * Sum(census.popn_black) / Sum(census.popn_total),1) AS black_pct
+FROM nyc_neighborhoods AS neighborhoods
+JOIN nyc_census_blocks AS census
+ON ST_Intersects(neighborhoods.the_geom, census.the_geom)
+WHERE neighborhoods.boroname = 'Manhattan'
+GROUP BY neighborhoods.name
+ORDER BY white_pct DESC;</pre>
+</div>
+<div class="highlight-python"><pre>  neighborhood_name  | population | white_pct | black_pct
+---------------------+------------+-----------+-----------
+ Carnegie Hill       |      19909 |      91.6 |       1.5
+ North Sutton Area   |      21413 |      90.3 |       1.2
+ West Village        |      27141 |      88.1 |       2.7
+ Upper East Side     |     201301 |      87.8 |       2.5
+ Greenwich Village   |      57047 |      84.1 |       3.3
+ Soho                |      15371 |      84.1 |       3.3
+ Murray Hill         |      27669 |      79.2 |       2.3
+ Gramercy            |      97264 |      77.8 |       5.6
+ Central Park        |      49284 |      77.8 |      10.4
+ Tribeca             |      13601 |      77.2 |       5.5
+ Midtown             |      70412 |      75.9 |       5.1
+ Chelsea             |      51773 |      74.7 |       7.4
+ Battery Park        |       9928 |      74.1 |       4.9
+ Upper West Side     |     212499 |      73.3 |      10.4
+ Financial District  |      17279 |      71.3 |       5.3
+ Clinton             |      26347 |      64.6 |      10.3
+ East Village        |      77448 |      61.4 |       9.7
+ Garment District    |       6900 |      51.1 |       8.6
+ Morningside Heights |      41499 |      50.2 |      24.8
+ Little Italy        |      14178 |      39.4 |       1.2
+ Yorkville           |      57800 |      31.2 |      33.3
+ Inwood              |      50922 |      29.3 |      14.9
+ Lower East Side     |     104690 |      28.3 |       9.0
+ Washington Heights  |     187198 |      26.9 |      16.3
+ East Harlem         |      62279 |      20.2 |      46.2
+ Hamilton Heights    |      71133 |      14.6 |      41.1
+ Chinatown           |      18195 |      10.3 |       4.2
+ Harlem              |     125501 |       5.7 |      80.5</pre>
+</div>
+<ol class="arabic simple">
+<li>La clausula JOIN crea una tabla virtual que incluye los datos de los barrios y de los censos</li>
+<li>WHERE filtra la tabla virtual solo para las columnas de Manhattan</li>
+<li>Las filas resultantes son agrupadas por el nombre del barrio y rellenadas con la función de agregación Sum() de los valores de población</li>
+</ol>
+</div>
+</div>
+<div class="section" id="practica">
+<h2>Práctica<a class="headerlink" href="#practica" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Calcula la matriz DE-9IM entre AB y BA para las siguientes figuras:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/relations-exec/geoms.png"><img alt="_images/relations-exec/geoms.png" src="_images/relations-exec/geoms.png" /></a>
+<a class="reference internal image-reference" href="_images/relations-exec/geoms2.png"><img alt="_images/relations-exec/geoms2.png" src="_images/relations-exec/geoms2.png" /></a>
+<a class="reference internal image-reference" href="_images/relations-exec/geoms3.png"><img alt="_images/relations-exec/geoms3.png" src="_images/relations-exec/geoms3.png" /></a>
+<a class="reference internal image-reference" href="_images/relations-exec/geoms4.png"><img alt="_images/relations-exec/geoms4.png" src="_images/relations-exec/geoms4.png" /></a>
+</div></blockquote>
+</li>
+<li><p class="first">Dibuja dos casos de geometrías con las que se obtengan las siguientes matrices:</p>
+<blockquote>
+<div><ul class="simple">
+<li>0F0FFF102</li>
+<li>FF2F112F2</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Indica la respuesta correcta en los siguientes casos:</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><strong>a</strong> ¿En que casos se aplica el predicado Touches?</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/relations-exec/touches1.png"><img alt="_images/relations-exec/touches1.png" src="_images/relations-exec/touches1.png" /></a>
+<a class="reference internal image-reference" href="_images/relations-exec/touches2.png"><img alt="_images/relations-exec/touches2.png" src="_images/relations-exec/touches2.png" /></a>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>b</strong> ¿Y el predicado Crosses?</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/relations-exec/crosses1.png"><img alt="_images/relations-exec/crosses1.png" src="_images/relations-exec/crosses1.png" /></a>
+<a class="reference internal image-reference" href="_images/relations-exec/crosses2.png"><img alt="_images/relations-exec/crosses2.png" src="_images/relations-exec/crosses2.png" /></a>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>c</strong> ¿Comprueba en que casos se aplica el predicado Overlaps?</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/relations-exec/overlaps1.png"><img alt="_images/relations-exec/overlaps1.png" src="_images/relations-exec/overlaps1.png" /></a>
+<a class="reference internal image-reference" href="_images/relations-exec/overlaps2.png"><img alt="_images/relations-exec/overlaps2.png" src="_images/relations-exec/overlaps2.png" /></a>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Utilizando el software JTS Test Builder, generar un ejemplo que cumpla cada una de las relaciones.</p>
+</li>
+<li><p class="first">Comprueba si estas geometrías son iguales: LINESTRING(0 0, 10 0) Y MULTILINESTRING((10 0, 5 0),(0 0, 5 0)).</p>
+</li>
+<li><p class="first">Represente como texto el valor de la geometría de la calle &#8216;Atlantic Commons&#8217;.</p>
+</li>
+<li><p class="first">¿En que barrio se encuentra Atlantic Commons?</p>
+</li>
+<li><p class="first">¿Qué calles colindan con Atlantic Commons?</p>
+</li>
+<li><p class="first">Aproximadamente, ¿cuánta gente vive en los 50 m alrededor de Atlantic Commons?</p>
+</li>
+<li><p class="first">¿Cúal es la calle más larga de NY y que barrios cruza?</p>
+</li>
+<li><p class="first">¿Qué estación de metro está en Little Italy? ¿Qué linea de metro es?</p>
+</li>
+<li><p class="first">¿Cuales son los barrios por los que pasa la linea 6?. Recuerda que las lineas (routes) son de tipo texto y pueden estar compuestas por una o varias lineas (routes=&#8217;B,D,6,V&#8217;). Utiliza la función <tt class="docutils literal"><span class="pre">strpos</span></tt></p>
+</li>
+<li><p class="first">Después del 11-S, el barrio Battery Park estuvo cerrado por varios dias. ¿Cuanta gente tuvo que ser evacuada?</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Relaciones espaciales</a><ul>
+<li><a class="reference internal" href="#introduccion">Introducción</a></li>
+<li><a class="reference internal" href="#matriz-de-9im">Matriz DE-9IM</a></li>
+<li><a class="reference internal" href="#predicados-espaciales">Predicados espaciales</a><ul>
+<li><a class="reference internal" href="#st-equals">ST_Equals</a><ul>
+<li><a class="reference internal" href="#ejemplo">Ejemplo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#st-intersects-st-disjoint-st-crosses-y-st-overlaps">ST_Intersects, ST_Disjoint, ST_Crosses y ST_Overlaps</a><ul>
+<li><a class="reference internal" href="#st-intersects">ST_Intersects</a></li>
+<li><a class="reference internal" href="#st-disjoint">ST_Disjoint</a></li>
+<li><a class="reference internal" href="#st-crosses">ST_Crosses</a></li>
+<li><a class="reference internal" href="#st-overlap">ST_Overlap</a><ul>
+<li><a class="reference internal" href="#id1">Ejemplo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#st-touches">ST_Touches</a></li>
+<li><a class="reference internal" href="#st-within-y-st-contains">ST_Within y ST_Contains</a><ul>
+<li><a class="reference internal" href="#id2">Ejemplo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#st-distance-and-st-dwithin">ST_Distance and ST_DWithin</a><ul>
+<li><a class="reference internal" href="#id3">Ejemplo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#joins-espaciales">JOINS espaciales</a><ul>
+<li><a class="reference internal" href="#join-y-group-by">JOIN y GROUP BY</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#practica">Práctica</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="simple_feature_model.html"
+                        title="previous chapter">Simple Feature Model</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="indexacion_espacial.html"
+                        title="next chapter">Indexación espacial</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/relaciones_espaciales.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="indexacion_espacial.html" title="Indexación espacial"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="simple_feature_model.html" title="Simple Feature Model"
+             >previous</a> |</li>
+        <li><a href="index.html">Curso PostGIS &amp; GeoNetwork 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Micho García.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

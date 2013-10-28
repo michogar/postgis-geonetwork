@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Curso de PostGIS 2.0 como repositorio de datos espaciales &mdash; Curso PostGIS &amp; GeoNetwork 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Curso PostGIS &amp; GeoNetwork 1 documentation" href="index.html" />
+    <link rel="next" title="GeoNetwork como catálogo de metadatos" href="introduccion-geonetwork.html" />
+    <link rel="prev" title="Welcome to Curso PostGIS &amp; GeoNetwork’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="introduccion-geonetwork.html" title="GeoNetwork como catálogo de metadatos"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Curso PostGIS &amp; GeoNetwork’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Curso PostGIS &amp; GeoNetwork 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="curso-de-postgis-2-0-como-repositorio-de-datos-espaciales">
+<h1>Curso de PostGIS 2.0 como repositorio de datos espaciales<a class="headerlink" href="#curso-de-postgis-2-0-como-repositorio-de-datos-espaciales" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="objetivo">
+<h1>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this headline">¶</a></h1>
+<p>Con la idea de introducir al alumnado en las bases de datos geoespaciales se desarrolla el siguiente curso. Se prepara a los mismos al manejo de estas comenzando por las nociones más básicas de teoría de bases de datos y acabando por operaciones complejas de análisis espacial. Además se dedica parte del temario al manejo de herramientas SIG con las que poder consultar estas bases de datos.</p>
+<dl class="docutils">
+<dt>Al finalizar el curso el alumno podrá:</dt>
+<dd><ul class="first last simple">
+<li>Instalar y configurar su propia base de datos</li>
+<li>Crear un modelo de datos</li>
+<li>Importar y exportar datos</li>
+<li>Realizar operaciones de análisis</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="destinatarios">
+<h1>Destinatarios<a class="headerlink" href="#destinatarios" title="Permalink to this headline">¶</a></h1>
+<p>Este curso está destinado a usuarios del bases de datos que tengan algún conocimiento sobre <strong>Modelo E/R</strong> y manejo básico del lenguaje de consulta <strong>SQL</strong>. Durante el curso se dedicará un numero de horas al repaso de estas materias, pero se recomienda que los alumnos tengan cierto conocimiento de ellas para una mejor comprensión del curso.</p>
+</div>
+<div class="section" id="metodologia">
+<h1>Metodología<a class="headerlink" href="#metodologia" title="Permalink to this headline">¶</a></h1>
+<p>El curso se realizará en <strong>cuatro jornadas de siete horas</strong> cada una en el horario indicado por los organizadores.
+Durante cada jornada se dedicará una parte del tiempo al estudio de la teoría con actividades prácticas intercaladas entre ella. A primera hora antes de comenzar cada jornada, se realizará un pequeño repaso de las partes estudiadas en la jornada anterior y consulta de dudas.</p>
+</div>
+<div class="section" id="temario">
+<h1>Temario<a class="headerlink" href="#temario" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic">
+<li><p class="first">Introducción</p>
+</li>
+<li><dl class="first docutils">
+<dt>Teoría de bases de datos <strong>(4h)</strong></dt>
+<dd><ol class="first last arabic simple">
+<li>Tablas, columnas, registros</li>
+<li>Modelado bases de datos</li>
+<li>Normalización</li>
+<li>Diagrama E-R</li>
+<li>Restricciones</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Instalación y creación base de datos <strong>(2h)</strong></dt>
+<dd><ol class="first last arabic simple">
+<li>Instalación y configuración PostgreSQL</li>
+<li>Clientes: pgsql y pgadmin3</li>
+<li>Creación roles y usuarios</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Conceptos básicos SQL <strong>(3h)</strong></dt>
+<dd><ol class="first last arabic simple">
+<li>Definición de datos</li>
+<li>Manejo de datos</li>
+<li>Consultas</li>
+<li>Manejo de varias tablas</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>PostGIS, características espaciales <strong>(2h)</strong></dt>
+<dd><ol class="first last arabic">
+<li><p class="first">Instalación y configuración PostGIS</p>
+</li>
+<li><p class="first">Tablas spatial_ref, geometry_columns</p>
+</li>
+<li><p class="first">Indices espaciales</p>
+</li>
+<li><p class="first">Funciones espaciales</p>
+</li>
+<li><dl class="first docutils">
+<dt>Módulos</dt>
+<dd><ol class="first last arabic simple">
+<li>Vectorial</li>
+<li>Raster</li>
+<li>Topológico</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p class="first">Tipos de datos espaciales</p>
+</li>
+<li><p class="first">Tipos de geometrías</p>
+</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Simple Feature Model <strong>(2h)</strong></dt>
+<dd><ol class="first last arabic">
+<li><p class="first">OGC y el Simple feature model</p>
+</li>
+<li><p class="first">WKT y WKB</p>
+</li>
+<li><dl class="first docutils">
+<dt>Definición de geometrías básicas</dt>
+<dd><ol class="first last arabic simple">
+<li>Points</li>
+<li>Linestrings</li>
+<li>Polygons</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Relaciones espaciales <strong>(3h)</strong></dt>
+<dd><ol class="first last arabic">
+<li><dl class="first docutils">
+<dt>Operaciones y operadores espaciales</dt>
+<dd><ol class="first last arabic simple">
+<li>ST_Intersects</li>
+<li>ST_Touches</li>
+<li>ST_Crosses</li>
+<li>...</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Indexación espacial <strong>(2h)</strong></dt>
+<dd><ol class="first last arabic simple">
+<li>Creación índices espaciales</li>
+<li>Utilización índices espaciales</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Importación y exportación de datos <strong>(3h)</strong></dt>
+<dd><ol class="first last arabic">
+<li><p class="first">Importación shapes mediante shp2pgsql</p>
+</li>
+<li><dl class="first docutils">
+<dt>GDAL/OGR</dt>
+<dd><ol class="first last arabic simple">
+<li>ogrinfo</li>
+<li>ogr2ogr</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Importación datos OSM a PostGIS</dt>
+<dd><ol class="first last arabic simple">
+<li>osm2pgsql</li>
+<li>osmosis</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p class="first">Consulta mediante visores web y sig escritorio</p>
+</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Análisis espacial <strong>(4h)</strong></dt>
+<dd><ol class="first last arabic simple">
+<li>Operadores espaciales</li>
+<li>Superposición</li>
+<li>Proximidad</li>
+<li>Generalización</li>
+<li>Transformación y edición de coordenadas</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>PostGIS Raster <strong>(3h)</strong></dt>
+<dd><ol class="first last arabic simple">
+<li>Definición de tipo raster</li>
+<li>Importación de ficheros raster</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="anexo">
+<h1>Anexo<a class="headerlink" href="#anexo" title="Permalink to this headline">¶</a></h1>
+<p>El curso se realizará utilizando la herramienta <strong>PostGIS en su versión 2.0</strong>. PostGIS es actualmente la referencia dentro de los sistemas gestores de bases de datos. Se trata de una herramienta de software libre, proyecto integrado en la Fundación OSGeo y utilizado por infinidad de centros.
+Se entregará para la realización del mismo un CD con una máquina virtual con el software y los datos necesarios ya instalados.</p>
+</div>
+<div class="section" id="materiales-necesarios">
+<h1>Materiales necesarios<a class="headerlink" href="#materiales-necesarios" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li>Conexión a internet</li>
+<li>Proyector</li>
+<li>Equipos con lector de CD y permiso de arranque desde el mismo</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Curso de PostGIS 2.0 como repositorio de datos espaciales</a></li>
+<li><a class="reference internal" href="#objetivo">Objetivo</a></li>
+<li><a class="reference internal" href="#destinatarios">Destinatarios</a></li>
+<li><a class="reference internal" href="#metodologia">Metodología</a></li>
+<li><a class="reference internal" href="#temario">Temario</a></li>
+<li><a class="reference internal" href="#anexo">Anexo</a></li>
+<li><a class="reference internal" href="#materiales-necesarios">Materiales necesarios</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Curso PostGIS &amp; GeoNetwork&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="introduccion-geonetwork.html"
+                        title="next chapter">GeoNetwork como catálogo de metadatos</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/introduccion-postgis.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="introduccion-geonetwork.html" title="GeoNetwork como catálogo de metadatos"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Curso PostGIS &amp; GeoNetwork’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">Curso PostGIS &amp; GeoNetwork 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Micho García.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>
